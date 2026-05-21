@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import ServiceWorkerProvider from "@/components/shared/ServiceWorkerProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Streakly",
     description: "Track habits, build consistency, and keep your streak alive.",
-  }
+  },
 };
 
 export const viewport: Viewport = {
@@ -64,7 +65,10 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${bebasNeue.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <ServiceWorkerProvider />
+        {children}
+      </body>
     </html>
   );
 }
