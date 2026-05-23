@@ -7,6 +7,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    coverage: {
+      provider: "v8",
+      include: ["src/lib/**"],
+      thresholds: { lines: 80 },
+    },
 
     exclude: ["tests/e2e/**", "node_modules/**"],
   },

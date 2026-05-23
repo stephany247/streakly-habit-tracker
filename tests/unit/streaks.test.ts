@@ -7,7 +7,7 @@ function daysAgo(n: number): string {
   return d.toISOString().split("T")[0];
 }
 
-const today = daysAgo(0);
+const today = new Date().toISOString().split("T")[0];
 const yesterday = daysAgo(1);
 const twoDaysAgo = daysAgo(2);
 
@@ -34,5 +34,9 @@ describe("calculateCurrentStreak", () => {
 
   it("breaks the streak when a calendar day is missing", () => {
     expect(calculateCurrentStreak([today, twoDaysAgo], today)).toBe(1);
+  });
+
+  it("uses the current date when today is not provided", () => {
+    expect(calculateCurrentStreak([today])).toBe(1);
   });
 });
