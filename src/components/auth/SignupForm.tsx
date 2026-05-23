@@ -94,7 +94,7 @@ export default function SignupForm() {
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                data-testid="auth-login-password"
+                data-testid="auth-signup-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
