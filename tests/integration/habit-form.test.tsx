@@ -20,6 +20,7 @@ vi.mock("../../src/lib/auth", () => ({
 }));
 
 import HabitForm from "../../src/components/habits/HabitForm";
+import { useState } from "react";
 
 describe("habit form", () => {
   beforeEach(() => {
@@ -36,19 +37,47 @@ describe("habit form", () => {
     expect(onSave).not.toHaveBeenCalled();
   });
 
-  it("creates a new habit and renders it in the list", async () => {
-    const onSave = vi.fn();
-    render(<HabitForm onSave={onSave} onCancel={vi.fn()} />);
-    fireEvent.change(screen.getByTestId("habit-name-input"), {
-      target: { value: "Drink Water" },
-    });
-    fireEvent.click(screen.getByTestId("habit-save-button"));
-    await waitFor(() => {
-      expect(onSave).toHaveBeenCalledWith(
-        expect.objectContaining({ name: "Drink Water" }),
-      );
-    });
+  it('creates a new habit and renders it in the list', async () => {
+  function Wrapper() {
+    const [habits, setHabits] = useState<any[]>([]);
+
+    return (
+      <>
+        <HabitForm
+          onSave={(habit) =>
+            setHabits((prev) => [...prev, habit])
+          }
+          onCancel={vi.fn()}
+        />
+
+        {habits.map((habit) => (
+          <div key={habit.name}>
+            {habit.name}
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  render(<Wrapper />);
+
+  fireEvent.change(
+    screen.getByTestId('habit-name-input'),
+    {
+      target: { value: 'Drink Water' },
+    }
+  );
+
+  fireEvent.click(
+    screen.getByTestId('habit-save-button')
+  );
+
+  await waitFor(() => {
+    expect(
+      screen.getByText('Drink Water')
+    ).toBeInTheDocument();
   });
+});
 
   it("edits an existing habit and preserves immutable fields", async () => {
     const habit = {
