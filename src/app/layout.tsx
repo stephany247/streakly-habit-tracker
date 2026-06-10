@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerProvider from "@/components/shared/ServiceWorkerProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -61,14 +62,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${bebasNeue.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col font-sans">
-        <ServiceWorkerProvider />
-        {children}
-      </body>
-    </html>
+    <>
+      <html
+        lang="en"
+        className={`${dmSans.variable} ${bebasNeue.variable} h-full antialiased`}
+      >
+        <body className="min-h-full flex flex-col font-sans">
+          <ServiceWorkerProvider />
+          {children}
+        </body>
+      </html>
+      <Analytics />
+    </>
   );
 }
